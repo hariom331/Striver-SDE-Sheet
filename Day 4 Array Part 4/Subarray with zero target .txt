@@ -1,0 +1,68 @@
+//Given an array of integers A and an integer B.
+
+Find the total number of subarrays having bitwise XOR of all elements equals to B.
+
+
+
+Problem Constraints
+1 <= length of the array <= 105
+
+1 <= A[i], B <= 109
+
+
+
+Input Format
+The first argument given is the integer array A.
+
+The second argument given is integer B.
+
+
+
+Output Format
+Return the total number of subarrays having bitwise XOR equals to B.
+
+
+
+
+
+
+
+
+
+
+int Solution::solve(vector<int> &A, int B) {
+    int n = A.size();
+    int ans = 0; // Initialize answer to be returned
+
+    // Create a prefix xor-sum array such that xorArr[i] has value equal to XOR of all elements in A[0 ..... i]
+    int xorArr[n];
+
+    // Create map that stores number of prefix array elements corresponding to a XOR value
+    unordered_map<int, int> mp;
+
+    // Initialize first element of prefix array
+    xorArr[0] = A[0];
+
+    // Computing the prefix array.
+    for (int i = 1; i < n; i++)
+        xorArr[i] = xorArr[i - 1] ^ A[i];
+
+    // Calculate the answer
+    for (int i = 0; i < n; i++) {
+      // Find XOR of current prefix with m.
+        int tmp = B ^ xorArr[i];
+
+        // If above XOR exists in map, then there is another previous prefix with same XOR, i.e., there is a subarray ending at i with XOR equal to B.
+        ans = ans + mp[tmp];
+
+        // If this subarray has XOR equal to m itself.
+        if (xorArr[i] == B)
+            ans++;
+
+        // Add the XOR of this subarray to the map
+        mp[xorArr[i]]++;
+    }
+
+    // Return total count of subarrays having XOR of elements as given value m
+    return ans;
+}
