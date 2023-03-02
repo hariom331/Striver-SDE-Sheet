@@ -1,0 +1,36 @@
+// Given an integer array nums, return the number of reverse pairs in the array.
+
+A reverse pair is a pair (i, j) where:
+
+0 <= i < j < nums.length and
+nums[i] > 2 * nums[j].
+ 
+
+
+
+
+ class Solution {
+public:
+    int merge(vector<int>&a, int left, int right)
+    {
+        if(left==right)return 0;
+        int mid= (left+right)/2;
+        int ans=merge(a,left, mid);
+        ans+=merge(a,mid+1,right);
+        int i=left;
+        int j=mid+1;
+        while(i<=mid && j <=right)
+        {
+            if((long long)a[i]<=(long long)(2LL*a[j]))i++;
+            else {
+                ans+=mid-i+1;
+                j++;
+            }
+        }
+        sort(a.begin()+left, a.begin()+right+1);
+        return ans;
+    }
+    int reversePairs(vector<int>& nums) {
+        return merge(nums,0,nums.size()-1);
+    }
+};

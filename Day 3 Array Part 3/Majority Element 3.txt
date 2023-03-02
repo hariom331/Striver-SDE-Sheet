@@ -1,0 +1,51 @@
+Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
+
+
+
+
+
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& a) {
+        int c1=0,c2=0,num1=-1,num2=-1;
+        for(int i=0;i<a.size();i++)
+        {
+            if(num1==a[i])
+            {
+                c1++;
+            }
+            else if(num2==a[i])
+            {
+                c2++;
+            }
+            else if(c1==0)
+            {
+                c1++;
+                num1=a[i];
+            }
+            else if(c2==0)
+            {
+                c2++;
+                num2=a[i];
+            }
+            else 
+            {
+                c1--;
+                c2--;
+            }
+        }
+        int count1=0,count2=0;
+        for(int i=0;i<a.size();i++)
+        {
+            if(a[i]==num1)count1++;
+            if(a[i]==num2)count2++;
+        }
+        bool n1=count1>ceil(a.size()/3);
+        bool n2=count2>ceil(a.size()/3);
+        if(n1 && n2 && (num1!=num2))return {num1,num2};
+        if(n1)return {num1};
+        if(n2)return {num2};
+        return {};
+    }
+};
