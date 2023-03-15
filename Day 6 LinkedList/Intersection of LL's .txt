@@ -1,0 +1,48 @@
+Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+For example, the following two linked lists begin to intersect at node c1:
+
+
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.
+
+Note that the linked lists must retain their original structure after the function returns.
+
+
+
+
+
+
+class Solution {
+public:
+    int len(ListNode* head)
+    {
+        if(head==NULL)return 0;
+        int  count=0;
+        while(head)
+        {
+            head=head->next;
+            count++;
+        }
+        return count;
+    }
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int l1=len(headA);
+        int l2=len(headB);
+        if(l2>l1)
+        {
+            ListNode* temp=headA;
+            headA=headB;
+            headB=temp;
+            swap(l1,l2);
+        }
+        int diff= l1-l2;
+        for(int i=1;i<=diff;i++)headA=headA->next;
+        while(headA && headB)
+        {
+            if(headA==headB)return headA;
+            headA=headA->next;
+            headB=headB->next;
+        }
+        return NULL;
+    }
+};
