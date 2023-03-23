@@ -1,0 +1,49 @@
+Given weights and values of N items, we need to put these items in a knapsack of capacity W to get the maximum total value in the knapsack.
+Note: Unlike 0/1 knapsack, you are allowed to break the item. 
+
+ 
+
+
+
+
+
+
+
+
+
+ class Solution
+{
+    public:
+    //Function to get the maximum total value in the knapsack.
+    bool static comp(pair<int,double> &a, pair<int,double> &b)
+    {
+        return a.second>b.second;
+    }
+    double fractionalKnapsack(int W, Item arr[], int n)
+    {
+        vector<pair<int, double>>har;
+        for(int i=0;i<n;i++)
+        {
+            double kap= (double)arr[i].value/(double)arr[i].weight;
+            har.push_back({i, kap});
+        }
+        sort(har.begin(), har.end(), comp);
+        double ans =0;
+        for(int i =0; i< har.size() && W; i++)
+        {
+            int idx= har[i].first;
+            if(arr[idx].weight <= W)
+            {
+                ans+=(double)arr[idx].value;
+                W-=arr[idx].weight;
+            }
+            else
+            {
+                ans+= (double) W * har[i].second;
+                break;
+            }
+        }
+        return ans;
+    }
+        
+};
